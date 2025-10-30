@@ -1,0 +1,152 @@
+/* Global Body */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background-color: #f7f9fc;
+  scroll-behavior: smooth;
+}
+
+/* Colors */
+.text-orange { color: #ff6b35 !important; }
+.btn-orange {
+  background-color: #ff6b35;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.btn-orange:hover {
+  background-color: #ff824f;
+  transform: translateY(-2px);
+}
+
+/* Navbar */
+.navbar-nav .nav-link { transition: color 0.3s ease; }
+.navbar-nav .nav-link:hover { color: #ff6b35 !important; }
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+    url("https://images.unsplash.com/photo-1522204502291-452b8c9c51b9?auto=format&fit=crop&w=1470&q=80");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+.hero-section .highlight { color: #ff6b35; }
+
+/* Stats Cards */
+.stats-row { margin-top: 30px; }
+.stat-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 30px 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+.stat-card:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+.stat-card h3 { font-size: 2rem; font-weight: 700; }
+.stat-card p { color: #555; font-size: 0.9rem; }
+
+/* About Cards */
+.about-card {
+  background-color: #fff;
+  border-left: 5px solid #ff6b35;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.about-card:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+
+/* Service Cards */
+.service-card {
+  border-top: 5px solid #ff6b35;
+  border-radius: 10px;
+  background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.service-card:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+
+/* Team Section */
+.team-card {
+  background-color: #fff;
+  border-radius: 10px;
+  border-top: 5px solid #ff6b35;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.team-card:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+.team-img { width: 100px; height: 100px; object-fit: cover; border: 3px solid #ff6b35; }
+
+/* Form Inputs */
+form .form-control:focus {
+  border-color: #ff6b35;
+  box-shadow: 0 0 0 0.2rem rgba(255,107,53,0.25);
+}
+
+/* Course Cards */
+.course-card { transition: all 0.3s ease; }
+.course-card:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+
+/* Footer */
+.footer {
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+}
+.footer a {
+  color: white;
+  transition: color 0.3s;
+}
+.footer a:hover {
+  color: #ffa500;
+}
+.footer hr { border-color: rgba(255, 255, 255, 0.2); }
+
+/* Modal Backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 15px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* Modal Buttons */
+.modal-content .btn {
+  margin-top: 10px;
+}
+
+/* Service Detail Card */
+.service-detail-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 40px 30px;
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+  border-top: 5px solid #ff6b35;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+}
+.service-detail-card h2 { color: #ff6b35; margin-bottom: 20px; }
+.service-detail-card p { color: #555; margin-bottom: 20px; }
+.service-detail-card button { margin-bottom: 15px; }
