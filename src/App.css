@@ -35,7 +35,7 @@ body {
     url("https://images.unsplash.com/photo-1522204502291-452b8c9c51b9?auto=format&fit=crop&w=1470&q=80");
   background-size: cover;
   background-position: center;
-  height: 75vh; /* reduced from 100vh */
+  height: 75vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -170,6 +170,7 @@ form .form-control:focus {
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  backdrop-filter: blur(2px);
 }
 
 /* Modal Content */
@@ -181,6 +182,7 @@ form .form-control:focus {
   width: 90%;
   text-align: center;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.4s ease;
 }
 
 /* Modal Buttons */
@@ -211,6 +213,18 @@ form .form-control:focus {
   margin-bottom: 15px;
 }
 
+/* Enrollment Modal Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .hero-section {
@@ -221,5 +235,12 @@ form .form-control:focus {
   }
   .hero-section p {
     font-size: 1rem;
+  }
+}
+
+/* Responsive Fix */
+@media (max-width: 576px) {
+  .modal-content {
+    padding: 1.5rem;
   }
 }

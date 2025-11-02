@@ -1,31 +1,139 @@
-import React from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 const services = [
-  { id: 1, icon: "laptop-code", title: "Web Development", text: "Modern websites using React & Node.js.", price: "$300" },
-  { id: 2, icon: "mobile-screen-button", title: "App Development", text: "Cross-platform mobile apps.", price: "$400" },
-  { id: 3, icon: "cloud", title: "Cloud Services", text: "Secure deployment & hosting.", price: "$250" },
-  { id: 4, icon: "shield-halved", title: "Cybersecurity", text: "Protect your business with ethical hacking.", price: "$350" }
+  {
+    id: 1,
+    title: "Web Development",
+    icon: "code",
+    text: "Learn how to create responsive and dynamic websites.",
+  },
+  {
+    id: 2,
+    title: "Mobile App Development",
+    icon: "mobile-alt",
+    text: "Build Android and iOS apps using modern frameworks.",
+  },
+  {
+    id: 3,
+    title: "UI/UX Design",
+    icon: "palette",
+    text: "Master the art of creating visually stunning designs.",
+  },
+  {
+    id: 4,
+    title: "Digital Marketing",
+    icon: "bullhorn",
+    text: "Boost your brand's online presence and reach customers effectively.",
+  },
 ];
 
-const ServiceDetail = () => {
+export default function ServiceDetail() {
   const { id } = useParams();
-  const service = services.find(s => s.id === parseInt(id));
+  const navigate = useNavigate();
+  const service = services.find((s) => s.id === parseInt(id));
 
-  if (!service) return <div className="text-center py-5"><h2>Service not found</h2></div>;
+  const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    course: service?.title || "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert(`✅ Enrollment Successful!\n\nThank you, ${formData.name}, for enrolling in ${formData.course}.`);
+    setShowForm(false);
+    setFormData({ name: "", email: "", phone: "", course: service?.title || "" });
+  };
+
+  if (!service) {
+    return <h2 className="text-center py-5">Service Not Found</h2>;
+  }
 
   return (
-    <div className="container py-5">
-      <Link to="/" className="btn btn-outline-dark mb-4">← Back to Home</Link>
-      <div className="service-detail-card p-5 shadow rounded" style={{backgroundColor:"#fff8f5", borderLeft:"5px solid #ff6b35"}}>
-        <i className={`fas fa-${service.icon} fa-3x mb-3 text-orange`}></i>
-        <h2 className="fw-bold mb-3">{service.title}</h2>
-        <p className="mb-3">{service.text}</p>
-        <p className="fw-bold mb-4">Price: {service.price}</p>
-        <button className="btn btn-orange btn-lg">Buy Now</button>
+    <section className="py-5 bg-light text-center">
+      <div className="container">
+        <div className="service-detail-card">
+          <i className={`fas fa-${service.icon} fa-3x mb-3 text-orange`}></i>
+          <h2 className="fw-bold">{service.title}</h2>
+          <p className="lead mb-4">{service.text}</p>
+          <button className="btn btn-orange px-4" onClick={() => setShowForm(true)}>
+            Enroll Now
+          </button>
+          <button className="btn btn-secondary px-4 ms-3" onClick={() => navigate("/")}>
+            Back to Home
+          </button>
+        </div>
       </div>
-    </div>
-  );
-};
 
-export default ServiceDetail;
+      {/* Modal for Enrollment Form */}
+      {showForm && (
+        <div className="modal-backdrop">
+          <div className="modal-content animate-modal">
+            <h4 className="text-orange fw-bold mb-3">Student Enrollment Form</h4>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <input
+                  type="text"
+                  name="name"
+                  className="form-control"
+                  placeholder="Full Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <input
+                  type="email"
+                  name="email"
+                  className="form-control"
+                  placeholder="Email Address"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <input
+                  type="tel"
+                  name="phone"
+                  className="form-control"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <input
+                  type="text"
+                  name="course"
+                  className="form-control"
+                  value={formData.course}
+                  readOnly
+                />
+              </div>
+              <button type="submit" className="btn btn-orange w-100">
+                Submit Enrollment
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary w-100 mt-2"
+                onClick={() => setShowForm(false)}
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
