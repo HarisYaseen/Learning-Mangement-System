@@ -3,19 +3,20 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-import userRoutes from "./routes/userRoutes.js"; // ✅ import the routes
+import userRoutes from "./routes/userRoutes.js"; // ✅ Auth routes (register/login)
 import path from "path";
 import { fileURLToPath } from "url";
 
-// ✅ resolve directory for .env file
+// ✅ Resolve directory for .env file (important when using ES Modules)
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
+// ✅ Initialize Express app
 const app = express();
 
 // ✅ Middlewares
-app.use(cors());
-app.use(express.json());
+app.use(cors()); // Allow frontend (React) to communicate with backend
+app.use(express.json()); // Parse incoming JSON requests
 
 // ✅ Environment Variables
 const PORT = process.env.PORT || 5000;
@@ -25,17 +26,24 @@ const MONGO_URI = process.env.MONGO_URI;
 mongoose
   .connect(MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected"))
-  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
+  .catch((err) => {
+    console.error("❌ MongoDB Connection Error:", err.message);
+    process.exit(1);
+  });
 
-// ✅ Routes
-app.use("/api/auth", userRoutes); // 👈 all auth routes start with /api/auth
+// ✅ API Routes
+app.use("/api/auth", userRoutes); // 👈 All routes from userRoutes.js will start with /api/auth
 
-// ✅ Default Route
+// Example: 
+// POST http://localhost:5000/api/auth/register
+// POST http://localhost:5000/api/auth/login
+
+// ✅ Default Route for testing server
 app.get("/", (req, res) => {
-  res.send("🚀 Hadi LMS Backend is running...");
+  res.send("🚀 Hadi LMS Backend is running successfully...");
 });
 
-// ✅ Server Listen
+// ✅ Start Server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });

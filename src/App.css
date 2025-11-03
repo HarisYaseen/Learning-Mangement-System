@@ -1,246 +1,113 @@
-/* Global Body */
-body {
-  margin: 0;
-  font-family: "Poppins", sans-serif;
-  background-color: #f7f9fc;
-  scroll-behavior: smooth;
+/* ...existing code... */
+
+/* Login Page Styles */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff; /* White background for the login page */
+  padding: 20px;
 }
 
-/* Colors */
-.text-orange {
-  color: #ff6b35 !important;
+.login-container {
+  max-width: 400px;
+  width: 100%;
+  padding: 2.5rem;
+  background: #fff; /* White background for the login container */
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  border-top: 5px solid #001f3f; /* Dark blue border for the top */
+  animation: fadeInUp 0.5s ease;
 }
-.btn-orange {
-  background-color: #ff6b35;
-  color: white;
-  font-weight: 600;
+
+.login-container h2 {
+  color: #001f3f; /* Dark blue for the heading */
+  margin-bottom: 0.5rem;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   transition: all 0.3s ease;
 }
-.btn-orange:hover {
-  background-color: #ff824f;
+
+.form-group input:focus {
+  border-color: #001f3f; /* Dark blue */
+  box-shadow: 0 0 0 0.2rem rgba(0, 31, 63, 0.25);
+  outline: none;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #001f3f; /* Dark blue */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-container button:hover {
+  background-color: #0074D9; /* Lighter blue */
   transform: translateY(-2px);
 }
 
-/* Navbar */
-.navbar-nav .nav-link {
-  transition: color 0.3s ease;
-}
-.navbar-nav .nav-link:hover {
-  color: #ff6b35 !important;
+.login-container button:disabled {
+  background-color: #ccc;
+  transform: none;
+  cursor: not-allowed;
 }
 
-/* Hero Section */
-.hero-section {
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url("https://images.unsplash.com/photo-1522204502291-452b8c9c51b9?auto=format&fit=crop&w=1470&q=80");
-  background-size: cover;
-  background-position: center;
-  height: 75vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+.error-message {
+  color: #dc3545;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border: 1px solid #dc3545;
+  border-radius: 8px;
+  background-color: #f8d7da;
   text-align: center;
-  padding: 0 15px;
-}
-.hero-section .highlight {
-  color: #ff6b35;
-}
-.hero-section h1 {
-  font-size: 2.5rem;
-}
-.hero-section p {
-  font-size: 1.1rem;
-  max-width: 700px;
-  margin: 0 auto 20px auto;
-}
-
-/* Stats Cards */
-.stats-row {
-  margin-top: 30px;
-}
-.stat-card {
-  background: #fff;
-  border-radius: 15px;
-  padding: 25px 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  text-align: center;
-}
-.stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-.stat-card h3 {
-  font-size: 1.8rem;
-  font-weight: 700;
-}
-.stat-card p {
-  color: #555;
   font-size: 0.9rem;
 }
 
-/* About Cards */
-.about-card {
-  background-color: #fff;
-  border-left: 5px solid #ff6b35;
-  border-radius: 10px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.about-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Service Cards */
-.service-card {
-  border-top: 5px solid #ff6b35;
-  border-radius: 10px;
-  background-color: #fff;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-.service-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Team Section */
-.team-card {
-  background-color: #fff;
-  border-radius: 10px;
-  border-top: 5px solid #ff6b35;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-.team-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-}
-.team-img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border: 3px solid #ff6b35;
-}
-
-/* Form Inputs */
-form .form-control:focus {
-  border-color: #ff6b35;
-  box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
-}
-
-/* Course Cards */
-.course-card {
-  transition: all 0.3s ease;
-}
-.course-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* Footer */
-.footer {
-  background-color: rgba(0, 0, 0, 0.9);
-  color: white;
-}
-.footer a {
-  color: white;
-  transition: color 0.3s;
-}
-.footer a:hover {
-  color: #ff6b35;
-}
-.footer hr {
-  border-color: rgba(255, 255, 255, 0.2);
-}
-.footer .small {
-  line-height: 1.6;
-}
-
-/* Modal Backdrop */
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  backdrop-filter: blur(2px);
-}
-
-/* Modal Content */
-.modal-content {
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 15px;
-  max-width: 500px;
-  width: 90%;
+.login-footer {
   text-align: center;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  animation: fadeInUp 0.4s ease;
-}
-
-/* Modal Buttons */
-.modal-content .btn {
-  margin-top: 10px;
-}
-
-/* Service Detail Card */
-.service-detail-card {
-  background: #fff;
-  border-radius: 15px;
-  padding: 40px 30px;
-  max-width: 600px;
-  margin: auto;
-  text-align: center;
-  border-top: 5px solid #ff6b35;
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-}
-.service-detail-card h2 {
-  color: #ff6b35;
-  margin-bottom: 20px;
-}
-.service-detail-card p {
+  margin-top: 1.5rem;
   color: #555;
-  margin-bottom: 20px;
-}
-.service-detail-card button {
-  margin-bottom: 15px;
 }
 
-/* Enrollment Modal Animation */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.login-footer a {
+  color: #001f3f; /* Dark blue */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .hero-section {
-    height: 65vh;
-  }
-  .hero-section h1 {
-    font-size: 2rem;
-  }
-  .hero-section p {
-    font-size: 1rem;
-  }
+.login-footer a:hover {
+  color: #0074D9; /* Lighter blue */
 }
 
-/* Responsive Fix */
+/* Login Responsive Styles */
 @media (max-width: 576px) {
-  .modal-content {
+  .login-container {
+    margin: 1rem;
     padding: 1.5rem;
   }
 }
