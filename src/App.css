@@ -111,3 +111,26 @@
     padding: 1.5rem;
   }
 }
+/* Sidebar Default Link */
+.sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+  transition: all 0.3s ease;
+}
+
+/* Hover Effect */
+.sidebar .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffcc00 !important;
+}
+
+/* Active Link (the one user is currently on) */
+.active-link {
+  background-color: #ffcc00 !important;
+  color: #001f3f !important;
+  font-weight: 600;
+}
+
+/* Inactive Link */
+.inactive-link {
+  color: rgba(255, 255, 255, 0.85);
+}

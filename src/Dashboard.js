@@ -1,6 +1,7 @@
 // src/Dashboard.js
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom"; // 👈 Added Outlet
+import Sidebar from "./Sidebar";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -10,8 +11,7 @@ function Dashboard() {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUserData(parsedUser);
+      setUserData(JSON.parse(storedUser));
     } else {
       navigate("/login");
     }
@@ -25,50 +25,19 @@ function Dashboard() {
 
   return (
     <div className="d-flex">
-      {/* ================= Sidebar ================= */}
+      <Sidebar />
+
       <div
-        className="sidebar text-white p-3"
+        className="flex-grow-1"
         style={{
-          width: "250px",
-          backgroundColor: "#001f3f",
+          marginLeft: "250px",
           minHeight: "100vh",
+          backgroundColor: "#f9fafb",
         }}
       >
-        <h4 className="fw-bold mb-4 text-center text-warning">Hadi LMS</h4>
-        <ul className="nav flex-column">
-          <li className="nav-item mb-2">
-            <a href="#overview" className="nav-link text-white">
-              <i className="fas fa-home me-2"></i> Overview
-            </a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#courses" className="nav-link text-white">
-              <i className="fas fa-book me-2"></i> Courses
-            </a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#assignments" className="nav-link text-white">
-              <i className="fas fa-tasks me-2"></i> Assignments
-            </a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#grades" className="nav-link text-white">
-              <i className="fas fa-chart-line me-2"></i> Grades
-            </a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#profile" className="nav-link text-white">
-              <i className="fas fa-user me-2"></i> Profile
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      {/* ================= Main Content Area ================= */}
-      <div className="flex-grow-1">
         {/* ===== Top Navbar ===== */}
         <nav
-          className="navbar navbar-expand-lg"
+          className="navbar navbar-expand-lg shadow-sm"
           style={{
             backgroundColor: "#001f3f",
             color: "white",
@@ -105,15 +74,6 @@ function Dashboard() {
                   <li>
                     <hr className="dropdown-divider" />
                   </li>
-                  <li className="dropdown-item small">
-                    Enrollment ID: <strong>STD123</strong>
-                  </li>
-                  <li className="dropdown-item small">
-                    Course: <strong>Software Engineering</strong>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
                   <li>
                     <button
                       className="dropdown-item text-danger"
@@ -128,16 +88,9 @@ function Dashboard() {
           </div>
         </nav>
 
-        {/* ===== Dashboard Content ===== */}
-        <div className="container mt-4">
-          <h3>Welcome, {userData?.name || "Student"} 👋</h3>
-          <p className="text-muted">Here’s your personalized dashboard overview.</p>
-
-          {/* ===== Empty Course Section (for now) ===== */}
-          <section id="courses" className="mt-5">
-            <h4 className="mb-3">Your Courses</h4>
-            <p>No courses enrolled yet. Start learning soon!</p>
-          </section>
+        {/* ===== Where nested routes (like Calendar) render ===== */}
+        <div className="p-4">
+          <Outlet /> {/* 👈 Calendar loads here */}
         </div>
       </div>
     </div>

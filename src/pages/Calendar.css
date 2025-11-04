@@ -1,0 +1,23 @@
+.calendar-container {
+  margin-left: 260px; /* Keeps space for sidebar */
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.card {
+  border-radius: 10px;
+}
+
+.event-card {
+  transition: 0.3s ease-in-out;
+}
+
+.event-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-control:focus {
+  border-color: #001f3f !important;
+  box-shadow: 0 0 0 0.2rem rgba(0, 31, 63, 0.25);
+}

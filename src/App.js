@@ -7,8 +7,9 @@ import LmsPortal from "./LmsPortal";
 import Register from "./Register";
 import Login from "./Login";
 import Dashboard from "./Dashboard";
-
-
+import Calendar from "./pages/Calendar";
+import GradeBook from "./pages/GradeBook";
+import Assignments from "./pages/Assignments";
 function App() {
   return (
     <Routes>
@@ -18,8 +19,13 @@ function App() {
       <Route path="/lmsportal" element={<LmsPortal />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/dashboard" element={<Dashboard />} />
 
+      {/* Dashboard Layout */}
+      <Route path="/dashboard/*" element={<Dashboard />}>
+        <Route path="calendar" element={<Calendar />} /> {/* ✅ nested */}
+        <Route path="gradebook" element={<GradeBook />} /> {/* ✅ nested */}
+        <Route path="assignments" element={<Assignments />} /> {/* ✅ nested */}
+      </Route>
     </Routes>
   );
 }
