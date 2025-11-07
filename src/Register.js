@@ -7,29 +7,28 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
+    role: "admin", // 👈 Register page used only by admin
   });
 
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Handle input change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
       await axios.post("http://localhost:5000/api/auth/register", formData);
-      setMessage("✅ Registration successful! Redirecting to login...");
+      setMessage("✅ Admin registered successfully! Redirecting to login...");
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       console.error("Registration error:", err);
-      setMessage(err.response?.data?.message || "❌ Something went wrong! Please try again.");
+      setMessage(err.response?.data?.message || "❌ Something went wrong!");
     } finally {
       setLoading(false);
     }
@@ -38,12 +37,12 @@ const Register = () => {
   return (
     <div className="login-page">
       <div className="login-container">
-        <h2>Create an Account</h2>
+        <h2>Create an Admin Account</h2>
         {message && <div className="error-message">{message}</div>}
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="name">Full Name:</label>
+            <label>Full Name:</label>
             <input
               type="text"
               name="name"
@@ -56,7 +55,7 @@ const Register = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="email">Email Address:</label>
+            <label>Email Address:</label>
             <input
               type="email"
               name="email"
@@ -69,7 +68,7 @@ const Register = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password:</label>
+            <label>Password:</label>
             <input
               type="password"
               name="password"

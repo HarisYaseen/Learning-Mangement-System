@@ -66,7 +66,7 @@ const Home = () => {
         className="hero-section d-flex align-items-center text-center text-white"
         style={{
           background: "linear-gradient(135deg, #001F3F, #003366)",
-          minHeight: "100vh",
+          minHeight: "70vh",
         }}
       >
         <div className="container">
@@ -131,7 +131,7 @@ const Home = () => {
               { number: "50+", label: "Expert Trainers" },
               { number: "25+", label: "Courses Offered" },
             ].map((stat, i) => (
-              <div key={i} className="col-6 col-md-3 mb-3">
+              <div key={i} className="col-16 col-md-3 mb-3">
                 <div className="stat-card p-4 shadow-sm h-100 bg-white rounded">
                   <h3 className="fw-bold text-orange mb-2">{stat.number}</h3>
                   <p className="small mb-0">{stat.label}</p>

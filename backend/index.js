@@ -1,13 +1,17 @@
-// index.js
+// backend/index.js
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-import userRoutes from "./routes/userRoutes.js"; // ✅ Auth routes (register/login)
 import path from "path";
 import { fileURLToPath } from "url";
 
-// ✅ Resolve directory for .env file (important when using ES Modules)
+// ✅ Import routes
+import userRoutes from "./routes/userRoutes.js";
+import enrollmentRoutes from "./routes/enrollmentRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
+
+// ✅ Load environment variables
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
@@ -15,35 +19,36 @@ dotenv.config({ path: path.resolve(__dirname, ".env") });
 const app = express();
 
 // ✅ Middlewares
-app.use(cors()); // Allow frontend (React) to communicate with backend
-app.use(express.json()); // Parse incoming JSON requests
+app.use(cors());
+app.use(express.json());
 
 // ✅ Environment Variables
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
-// ✅ MongoDB Connection
+// ✅ Connect to MongoDB
 mongoose
-  .connect(MONGO_URI)
+  .connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("✅ MongoDB Connected"))
   .catch((err) => {
     console.error("❌ MongoDB Connection Error:", err.message);
     process.exit(1);
   });
 
-// ✅ API Routes
-app.use("/api/auth", userRoutes); // 👈 All routes from userRoutes.js will start with /api/auth
+// ✅ Register routes
+app.use("/api/auth", userRoutes);         // Register/Login (Student + Admin)
+app.use("/api/enrollment", enrollmentRoutes); // Student enrollment form
+app.use("/api/admin", adminRoutes);       // Admin actions (approve/reject enrollments)
 
-// Example: 
-// POST http://localhost:5000/api/auth/register
-// POST http://localhost:5000/api/auth/login
-
-// ✅ Default Route for testing server
+// ✅ Root route (for sanity check)
 app.get("/", (req, res) => {
   res.send("🚀 Hadi LMS Backend is running successfully...");
 });
 
-// ✅ Start Server
+// ✅ Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
