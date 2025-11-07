@@ -8,27 +8,18 @@ function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
 
-  // ✅ Check if user is admin before loading page
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-
-    if (!storedUser) {
-      navigate("/login");
-      return;
-    }
-
+    if (!storedUser) return navigate("/login");
     const user = JSON.parse(storedUser);
-
     if (user.role !== "admin") {
       alert("Access denied! Admins only.");
-      navigate("/login");
-      return;
+      return navigate("/login");
     }
 
-    // ✅ Fetch enrollments after verifying admin
     const fetchEnrollments = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/admin/enrollments");
+        const res = await axios.get("http://localhost:5000/api/enrollment");
         setEnrollments(res.data);
       } catch (err) {
         console.error(err);
@@ -41,18 +32,43 @@ function AdminDashboard() {
     fetchEnrollments();
   }, [navigate]);
 
-  // ✅ Approve or reject student enrollment
+  // Handle mark approved or reject
   const handleAction = async (id, action) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/${action}/${id}`);
-      setMessage(`Enrollment ${action}ed successfully!`);
-
-      // Refresh list
-      const res = await axios.get("http://localhost:5000/api/admin/enrollments");
-      setEnrollments(res.data);
+      const res = await axios.put(`http://localhost:5000/api/enrollment/${action}/${id}`);
+      setMessage(res.data.message);
+      const refreshed = await axios.get("http://localhost:5000/api/enrollment");
+      setEnrollments(refreshed.data);
+      setTimeout(() => setMessage(""), 5000);
     } catch (err) {
       console.error(err);
       setMessage(`Failed to ${action} enrollment.`);
+      setTimeout(() => setMessage(""), 5000);
+    }
+  };
+
+  // Fetch temp password and open Gmail
+  const handleApproveEmail = async (enroll) => {
+    try {
+      const res = await axios.put(`http://localhost:5000/api/enrollment/get-temp-password/${enroll._id}`);
+      const tempPassword = res.data.tempPassword;
+
+      const subject = encodeURIComponent(`Enrollment Approved for ${enroll.firstName}`);
+      const body = encodeURIComponent(
+        `Hello ${enroll.firstName},\n\n` +
+        `Your enrollment for "${enroll.course}" has been approved.\n\n` +
+        `Email: ${enroll.email}\n` +
+        `Password: ${tempPassword}\n\n` +
+        `Best regards,\nAdmin`
+      );
+
+      window.open(
+        `https://mail.google.com/mail/?view=cm&fs=1&to=${enroll.email}&su=${subject}&body=${body}`,
+        "_blank"
+      );
+    } catch (err) {
+      console.error("Failed to fetch temp password:", err);
+      alert("Failed to fetch temp password.");
     }
   };
 
@@ -62,11 +78,7 @@ function AdminDashboard() {
     <div className="container py-5">
       <h2 className="fw-bold text-center mb-4 text-primary">Admin Panel – Enrollments</h2>
 
-      {message && (
-        <div className="alert alert-info text-center" role="alert">
-          {message}
-        </div>
-      )}
+      {message && <div className="alert alert-info text-center">{message}</div>}
 
       <div className="table-responsive">
         <table className="table table-striped table-bordered align-middle">
@@ -81,7 +93,7 @@ function AdminDashboard() {
             </tr>
           </thead>
           <tbody>
-            {enrollments.length > 0 ? (
+            {enrollments.length ? (
               enrollments.map((enroll) => (
                 <tr key={enroll._id}>
                   <td>{enroll.firstName} {enroll.lastName}</td>
@@ -89,27 +101,34 @@ function AdminDashboard() {
                   <td>{enroll.course}</td>
                   <td>{enroll.education}</td>
                   <td>
-                    <span
-                      className={`badge ${
-                        enroll.status === "approved"
-                          ? "bg-success"
-                          : enroll.status === "rejected"
-                          ? "bg-danger"
-                          : "bg-warning text-dark"
-                      }`}
-                    >
+                    <span className={`badge ${
+                      enroll.status === "approved" ? "bg-success" :
+                      enroll.status === "rejected" ? "bg-danger" :
+                      "bg-warning text-dark"
+                    }`}>
                       {enroll.status}
                     </span>
                   </td>
                   <td>
                     {enroll.status === "pending" ? (
                       <>
+                        {/* Open Gmail with temp password */}
                         <button
                           className="btn btn-success btn-sm me-2"
-                          onClick={() => handleAction(enroll._id, "approve")}
+                          onClick={() => handleApproveEmail(enroll)}
                         >
                           Approve
                         </button>
+
+                        {/* Mark as approved in backend */}
+                        <button
+                          className="btn btn-primary btn-sm me-2"
+                          onClick={() => handleAction(enroll._id, "mark-approved")}
+                        >
+                          Mark as Approved
+                        </button>
+
+                        {/* Reject enrollment */}
                         <button
                           className="btn btn-danger btn-sm"
                           onClick={() => handleAction(enroll._id, "reject")}

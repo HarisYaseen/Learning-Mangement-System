@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 function Enrollment() {
   const [formData, setFormData] = useState({
@@ -26,13 +27,26 @@ function Enrollment() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/enrollment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const token = localStorage.getItem("token"); // JWT from login
 
-      if (response.ok) {
+      if (!token) {
+        alert("⚠️ You must be logged in to submit an enrollment.");
+        setLoading(false);
+        return;
+      }
+
+      const response = await axios.post(
+        "http://localhost:5000/api/enrollment",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 201) {
         setSubmitted(true);
         setFormData({
           firstName: "",
@@ -50,7 +64,11 @@ function Enrollment() {
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("⚠️ Server error. Please check backend connection.");
+      if (error.response?.status === 401) {
+        alert("⚠️ Unauthorized. Please log in again.");
+      } else {
+        alert("⚠️ Server error. Please check backend connection.");
+      }
     } finally {
       setLoading(false);
     }
@@ -235,7 +253,7 @@ function Enrollment() {
                 <br />
                 The admin will respond within <strong>24 hours</strong>.
                 <br />
-                You’ll receive your ID and password via email.
+                You’ll receive updates via email.
               </p>
               <button
                 className="btn text-white mt-3"
