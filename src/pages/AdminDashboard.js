@@ -19,7 +19,7 @@ function AdminDashboard() {
 
     const fetchEnrollments = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/enrollment");
+        const res = await axios.get("http://localhost:5000/api/enrollments");
         setEnrollments(res.data);
       } catch (err) {
         console.error(err);
@@ -35,9 +35,9 @@ function AdminDashboard() {
   // Handle mark approved or reject
   const handleAction = async (id, action) => {
     try {
-      const res = await axios.put(`http://localhost:5000/api/enrollment/${action}/${id}`);
+      const res = await axios.put(`http://localhost:5000/api/enrollments/${action}/${id}`);
       setMessage(res.data.message);
-      const refreshed = await axios.get("http://localhost:5000/api/enrollment");
+      const refreshed = await axios.get("http://localhost:5000/api/enrollments");
       setEnrollments(refreshed.data);
       setTimeout(() => setMessage(""), 5000);
     } catch (err) {
@@ -50,7 +50,7 @@ function AdminDashboard() {
   // Fetch temp password and open Gmail
   const handleApproveEmail = async (enroll) => {
     try {
-      const res = await axios.put(`http://localhost:5000/api/enrollment/get-temp-password/${enroll._id}`);
+      const res = await axios.put(`http://localhost:5000/api/enrollments/get-temp-password/${enroll._id}`);
       const tempPassword = res.data.tempPassword;
 
       const subject = encodeURIComponent(`Enrollment Approved for ${enroll.firstName}`);

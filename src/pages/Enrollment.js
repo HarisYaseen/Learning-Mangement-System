@@ -36,7 +36,7 @@ function Enrollment() {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/enrollment",
+        "http://localhost:5000/api/enrollments",
         formData,
         {
           headers: {

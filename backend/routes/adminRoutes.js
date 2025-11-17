@@ -1,5 +1,5 @@
 import express from "express";
-import Enrollment from "../models/Enrollment.js";
+import Enrollment from "../models/Enrollments.js";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import sendEmail from "../utils/sendEmail.js";
@@ -9,7 +9,7 @@ const router = express.Router();
 // ✅ Get all enrollments
 router.get("/enrollments", async (req, res) => {
   try {
-    const enrollments = await Enrollment.find().sort({ createdAt: -1 });
+    const enrollments = await enrollments.find().sort({ createdAt: -1 });
     res.json(enrollments);
   } catch (error) {
     console.error(error);

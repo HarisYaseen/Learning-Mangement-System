@@ -6,49 +6,49 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// ✅ Import routes
-import userRoutes from "./routes/userRoutes.js";
+// ✅ Import Routes
+import authRoutes from "./routes/authRoutes.js";
 import enrollmentRoutes from "./routes/enrollmentRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import profileRoutes from "./routes/profileRoutes.js";
 
-// ✅ Load environment variables
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
-// ✅ Initialize Express app
 const app = express();
 
-// ✅ Middlewares
+// ✅ Middleware
 app.use(cors());
 app.use(express.json());
+
+// ✅ Serve uploaded images publicly
+app.use("/uploads", express.static(path.join(path.resolve(), "uploads")));
 
 // ✅ Environment Variables
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
-// ✅ Connect to MongoDB
+// ✅ MongoDB Connection
 mongoose
-  .connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("✅ MongoDB Connected"))
   .catch((err) => {
     console.error("❌ MongoDB Connection Error:", err.message);
     process.exit(1);
   });
 
-// ✅ Register routes
-app.use("/api/auth", userRoutes);         // Register/Login (Student + Admin)
-app.use("/api/enrollment", enrollmentRoutes); // Student enrollment form
-app.use("/api/admin", adminRoutes);       // Admin actions (approve/reject enrollments)
+// ✅ Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/enrollments", enrollmentRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/profile", profileRoutes);
 
-// ✅ Root route (for sanity check)
+// ✅ Root Endpoint
 app.get("/", (req, res) => {
-  res.send("🚀 Hadi LMS Backend is running successfully...");
+  res.send("🚀 LMS Backend running successfully...");
 });
 
-// ✅ Start server
+// ✅ Start Server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });

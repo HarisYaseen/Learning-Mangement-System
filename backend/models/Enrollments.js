@@ -1,12 +1,11 @@
-// backend/models/Enrollment.js
 import mongoose from "mongoose";
 
 const enrollmentSchema = new mongoose.Schema(
   {
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // optional link to created user
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // link to created user
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    email: { type: String, required: true, unique: true }, // ensure email is unique
+    email: { type: String, required: true }, // remove unique constraint
     phone: { type: String, required: true },
     dob: { type: String, required: true },
     education: { type: String, required: true },
@@ -18,7 +17,7 @@ const enrollmentSchema = new mongoose.Schema(
       enum: ["pending", "approved", "rejected"],
       default: "pending",
     },
-    tempPassword: { type: String, default: null }, // store temporary password
+    tempPassword: { type: String, default: null }, // store temporary password for user creation
   },
   { timestamps: true }
 );
